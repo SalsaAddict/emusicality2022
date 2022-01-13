@@ -2,6 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
+    "analytics": "0bcee0e7-f46d-4e5e-8388-b7cea3af2e26",
     "packageManager": "npm"
   },
   "newProjectRoot": "projects",
@@ -50,12 +51,19 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/.htaccess"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/bootswatch/dist/darkly/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {

@@ -1,0 +1,12 @@
+.main {
+  padding-top: 80px !important;
+}
+
+.list-group {
+  max-width: fit-content !important;
+}
+
+.toast-header {
+  background-color: var(--info) !important;
+  color: white;
+}

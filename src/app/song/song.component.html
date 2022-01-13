@@ -1,0 +1,142 @@
+<fieldset [disabled]="!player.loaded">
+    <div id="container" class="overflow-hidden">
+        <div id="header" class="d-inline-flex align-items-center p-2 bg-secondary">
+            <img class="img-thumbnail mr-2" [src]="song.imageUrl">
+            <div class="d-inline-block mr-auto">
+                <h5 class="m-0 text-truncate"><b [innerHtml]="song.title"></b></h5>
+                <p class="m-0 text-truncate" [innerHtml]="song.artist"></p>
+                <p class="m-0 text-truncate small text-muted" [innerHtml]="song.genre"></p>
+            </div>
+            <div class="d-inline-block d-inline-flex flex-column justify-content-between text-center text-nowrap">
+                <p class="m-0" class="badge badge-info">{{song.bpm}}bpm</p>
+                <h5 class="m-0"><b class="text-monospace">{{(player.seconds | async) ?? 0 | date: "mm:ss"}}</b></h5>
+            </div>
+        </div>
+        <div id="body" class="d-inline-flex">
+            <div id="tracks" class="d-inline-flex p-1">
+                <div class="text-center">
+                    <h5 class="m-1 initialism text-muted"><b>Instruments</b></h5>
+                </div>
+                <div class="d-inline-block w-100 p-1 text-center">
+                    <div ngbDropdown class="d-inline-block w-100" container="body">
+                        <button class="btn btn-info" [ngClass]="{ 'btn-block': landscape }" id="groups"
+                            ngbDropdownToggle [innerHtml]="player.group"></button>
+                        <div ngbDropdownMenu aria-labelledby="groups">
+                            <button ngbDropdownItem *ngFor="let grp of song.groups" [innerHtml]="grp"
+                                (click)="player.setGroup(grp)"></button>
+                        </div>
+                    </div>
+                </div>
+                <fieldset *ngFor="let track of player.tracks" [disabled]="track.disabled"
+                    class="m-1 px-2 py-1 border border-light rounded-lg text-nowrap bg-secondary">
+                    <div class="custom-control custom-switch">
+                        <input class="custom-control-input" type="checkbox" role="switch" [id]="track.trackId"
+                            [checked]="!track.muted" (click)="track.mute()">
+                        <label class="custom-control-label" [for]="track.trackId" [innerHtml]="track.title"></label>
+                    </div>
+                </fieldset>
+            </div>
+            <div id="breakdown"
+                class="flex-fill overflow-auto p-2 d-inline-flex flex-column justify-content-start align-items-center">
+                <div class="w-100 text-center">
+                    <h5 class="mb-2 initialism text-muted"><b>Song Structure</b></h5>
+                    <div class="w-100 d-inline-flex" style="height: 35px;">
+                        <div *ngFor="let s of song.sections" class="border rounded" style="cursor: pointer;"
+                            [style.border-color]="sectionColor(s).solid()" [style.width]="sectionWidth(s)"
+                            [style.background-image]="sectionColor(s).gradient(true)"
+                            [appAnimateIf]="s === current.section" (click)="player.seek(s.startIndex)">
+                            <div class="h-100" [style.background-image]="sectionColor(s).gradient(dimmed(s))"
+                                [style.width]="sectionProgress(s)"></div>
+                        </div>
+                    </div>
+                    <div class="w-100 d-inline-flex flex-row flex-wrap justify-content-center">
+                        <div *ngFor="let block of song.blocks" class="border rounded text-dark m-1 px-2 py-1"
+                            [style.border-color]="song.legend[block].solid()"
+                            [style.background-image]="song.legend[block].gradient(dimmed(block))"
+                            style="cursor: pointer;" [appAnimateIf]="!dimmed(block) && !highlightedBlock"
+                            (pointerdown)="blockHighlight($event, block)" (pointerup)="blockHighlight($event)"
+                            (pointerout)="blockHighlight($event)">
+                            <h5 class="m-0"><b [innerHtml]="block"></b></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-inline-flex flex-fill flex-column justify-content-around align-items-center">
+                    <div class="w-100 text-center mb-2">
+                        <h5 class="mb-2 initialism text-muted"><b>Rhythm / Framework</b></h5>
+                        <h3 class="m-0"><b class="initialism" [style.color]="current.section?.color?.solid()"
+                                [innerHtml]="current.measure?.structure"></b></h3>
+                    </div>
+                    <div class="w-100 text-center mb-2">
+                        <h5 class="mb-2 initialism text-muted"><b>Section Phrasing</b></h5>
+                        <div class="d-inline-flex justify-content-center align-items-center">
+                            <div *ngFor="let phrase of current.section?.phrases; first as p1"
+                                [ngClass]="{ 'ml-2': !p1 }">
+                                <div class="border rounded-pill p-1 d-inline-flex"
+                                    [style.border-color]="phraseColor(phrase).solid()"
+                                    [style.background-image]="phraseColor(phrase).gradient(true)">
+                                    <div *ngFor="let m of phrase; first as m1" class="blob" [ngClass]="{ 'ml-1': !m1 }"
+                                        [style.border-color]="phraseColor(phrase).solid()"
+                                        [style.background-image]="phraseColor(phrase).gradient(!current.active(m))"
+                                        [appAnimateIf]="current.active(m)" (click)="player.seek(m.startIndex)">
+                                        <p class="m-0 text-dark font-monospace" *ngIf="m.warning">!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-100 text-center mb-2">
+                        <h5 class="mb-2 initialism text-muted"><b>Beats / Counts</b></h5>
+                        <div class="d-inline-flex justify-content-center align-items-center">
+                            <div class="border rounded-pill p-1 d-inline-flex"
+                                [style.border-color]="current.section?.color?.solid()"
+                                [style.background-image]="current.section?.color?.gradient(true)"
+                                [appAnimateIf]="current.measure?.warning" [animation]="'headShake'">
+                                <div *ngFor="let m of markers(); first as m1" class="blob" [ngClass]="{ 'ml-1': !m1 }"
+                                    [style.border-color]="current.section?.color?.solid()"
+                                    [style.background-image]="current.section?.color?.gradient(m !== current.beat)"
+                                    [appAnimateIf]="m === current.beat"
+                                    (click)="player.seek(current.measure!.startIndex + m - 1)">
+                                    <p class="m-0 text-dark font-monospace" *ngIf="m === current.beat">{{m}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer" class="d-inline-flex justify-content-center align-items-center p-2 bg-secondary">
+            <a class="btn btn-lg btn-info" routerLink="/home">
+                <i class="bi-list-ul"></i>
+            </a>
+            <div [ngSwitch]="player.loaded">
+                <div class="btn-group btn-group-lg mx-2" [ngSwitch]="player.playing" *ngSwitchCase="true">
+                    <button type="button" class="btn btn-info" (click)="first()">
+                        <i class="bi-skip-backward-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-info" (click)="previous()">
+                        <i class="bi-skip-start-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-info" (click)="player.pause()" *ngSwitchCase="true">
+                        <i class="bi-pause-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-info" (click)="player.play()" *ngSwitchCase="false">
+                        <i class="bi-play-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-info" (click)="next()">
+                        <i class="bi-skip-end-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-info" (click)="last()">
+                        <i class="bi-skip-forward-fill"></i>
+                    </button>
+                </div>
+                <p class="m-0 btn btn-lg btn-warning mx-2" *ngSwitchCase="false">
+                    <i class="bi-cloud-download-fill animate__animated animate__fadeIn animate__infinite"></i>
+                </p>
+            </div>
+            <button type="button" class="btn btn-lg" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
+                (click)="loop()">
+                <i class="bi-arrow-repeat"></i>
+            </button>
+        </div>
+    </div>
+</fieldset>

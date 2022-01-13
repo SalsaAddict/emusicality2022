@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+.img-thumbnail {
+  width: 64px;
+  height: 64px;
+}
+
+.custom-switch .custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--info) !important;
+}

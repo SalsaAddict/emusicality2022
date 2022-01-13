@@ -1,0 +1,41 @@
+<nav class="navbar fixed-top bg-secondary text-white text-nowrap flex-nowrap">
+    <h3 class="navbar-brand mr-2 my-0"><b>eMusicality</b></h3>
+    <a class="m-0 text-muted text-truncate" href="https://www.facebook.com/salsaaddict" target="_blank">by Pierre
+        Henry</a>
+</nav>
+<div class="main">
+    <div class="vw-100 d-inline-flex justify-content-center">
+        <ngb-toast header="Please Support!" *ngIf="ask" (hide)="ask = false" [autohide]="false">
+            <p>This application is provided free of charge, but please consider making a donation to
+                support the development, maintenance and hosting of the software.</p>
+            <div class="text-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success" (click)="donate()">
+                        <i class="bi-piggy-bank-fill"></i>&nbsp;Donate
+                    </button>
+                    <button type="button" class="btn btn-warning" (click)="ask = false">
+                        <i class="bi-hand-thumbs-up-fill"></i>&nbsp;Later
+                    </button>
+                    <button type="button" class="btn btn-danger" (click)="never()">
+                        <i class="bi-hand-thumbs-down-fill"></i>&nbsp;Never
+                    </button>
+                </div>
+            </div>
+        </ngb-toast>
+    </div>
+    <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center">
+        <div class="list-group">
+            <a *ngFor="let song of songs | keyvalue" class="list-group-item list-group-item-action p-2"
+                [routerLink]="songUrl(song.key)">
+                <div class="d-inline-flex justify-content-start align-items-center">
+                    <img class="img-thumbnail mr-2" [src]="songImg(song.key)">
+                    <div class="d-inline-flex flex-column justify-content-between align-items-start">
+                        <b [innerHtml]="song.value.title"></b>
+                        <span [innerHtml]="song.value.artist"></span>
+                        <small class="text-muted" [innerHtml]="song.value.genre"></small>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

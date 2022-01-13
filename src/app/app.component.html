@@ -1,0 +1,4 @@
+<div [ngSwitch]="updating">
+    <p *ngSwitchCase="true">Updating&hellip;</p>
+    <router-outlet *ngSwitchCase="false"></router-outlet>
+</div>

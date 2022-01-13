@@ -1,0 +1,6 @@
+User-agent: *
+
+allow: /index.html
+disallow: **/*.json
+disallow: **/*.trk
+sitemap: https://www.emusicality.co.uk/sitemap.xml

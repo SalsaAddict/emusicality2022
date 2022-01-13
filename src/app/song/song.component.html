@@ -1,7 +1,7 @@
 <fieldset [disabled]="!player.loaded">
     <div id="container" class="overflow-hidden">
         <div id="header" class="d-inline-flex align-items-center p-2 bg-secondary">
-            <img class="img-thumbnail mr-2" [src]="song.imageUrl">
+            <img class="img-thumbnail mr-2" [src]="song.imageUrl" [alt]="song.title + ' by ' + song.artist">
             <div class="d-inline-block mr-auto">
                 <h5 class="m-0 text-truncate"><b [innerHtml]="song.title"></b></h5>
                 <p class="m-0 text-truncate" [innerHtml]="song.artist"></p>
@@ -105,7 +105,7 @@
             </div>
         </div>
         <div id="footer" class="d-inline-flex justify-content-center align-items-center p-2 bg-secondary">
-            <a class="btn btn-lg btn-info" routerLink="/home">
+            <a class="btn btn-lg btn-info" href="/home">
                 <i class="bi-list-ul"></i>
             </a>
             <div [ngSwitch]="player.loaded">

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { ISongs } from "src/schema/schema";
+import { ISong, ISongs } from "src/schema/schema";
 import { GlobalService } from "../global.service";
 
 @Component({
@@ -27,6 +27,9 @@ export class HomeComponent {
   }
   public songImg(songId: string) {
     return `/assets/songs/${songId}/cover.jpg`;
+  }
+  public songAlt(song: ISong) {
+    return `${song.title} by ${song.artist}`;
   }
   public readonly songs: ISongs;
 }

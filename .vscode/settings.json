@@ -12,5 +12,8 @@
       "fileMatch": ["/src/assets/songs/*/breakdown.json"],
       "url": "/src/schema/iBreakdown.json"
     }
-  ]
+  ],
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  }
 }

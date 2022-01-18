@@ -1,4 +1,10 @@
-import { AfterViewChecked, Component, NgZone, OnInit } from "@angular/core";
+import {
+  AfterViewChecked,
+  Component,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Color } from "../colors";
 import { Player } from "../player";
@@ -10,7 +16,7 @@ import { Measure, Section, Song } from "./song";
   templateUrl: "./song.component.html",
   styleUrls: ["./song.component.css"],
 })
-export class SongComponent implements OnInit, AfterViewChecked {
+export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(route: ActivatedRoute, private readonly zone: NgZone) {
     this.song = route.snapshot.data["song"];
     this.player = new Player(this.zone, this.song);
@@ -23,18 +29,19 @@ export class SongComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     this.resize();
   }
-  public showToast = true;
+  ngOnDestroy(): void {
+    this.player.dispose();
+  }
   public readonly song: Song;
   public readonly player: Player;
   public readonly current: Current;
 
   //#region Layout
-  private isPortrait: boolean = false;
   public get portrait() {
-    return this.isPortrait;
+    return window.innerHeight > window.innerWidth;
   }
   public get landscape() {
-    return !this.portrait;
+    return window.innerHeight <= window.innerWidth;
   }
   private resize = () => {
     this.zone.run(() => {
@@ -72,8 +79,7 @@ export class SongComponent implements OnInit, AfterViewChecked {
           "align-items-stretch",
           "tracks-landscape",
         ];
-      this.isPortrait = height > width;
-      if (this.isPortrait) {
+      if (height > width) {
         body.classList.add("flex-column-reverse");
         tracks.classList.remove(...landscape);
         tracks.classList.add(...portrait);
@@ -86,6 +92,7 @@ export class SongComponent implements OnInit, AfterViewChecked {
   };
   //#endregion
 
+  //#region Render
   public highlightedBlock?: string;
   public blockHighlight(event: Event, block?: string) {
     event.stopPropagation();
@@ -132,6 +139,7 @@ export class SongComponent implements OnInit, AfterViewChecked {
   public markers(): number[] {
     return [1, 2, 3, 4, 5, 6, 7, 8].slice(0, this.current.measure?.length ?? 0);
   }
+  //#endregion
 
   //#region Transport
   public first() {

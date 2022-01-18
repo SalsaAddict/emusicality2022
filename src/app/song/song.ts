@@ -84,12 +84,14 @@ export class Track {
       this.groups =
         typeof iTrack.groups === "string" ? [iTrack.groups] : iTrack.groups;
     else this.groups = [];
+    this.trim = typeof iTrack === "string" ? 0 : iTrack.trim ?? 0;
     this.groups.push(ALL);
     this.groups.sort();
   }
   public readonly title: string;
   public readonly fileName: string;
   public readonly groups: string[];
+  public readonly trim: number;
 }
 
 export class Section implements IRange {

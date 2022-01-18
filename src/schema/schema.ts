@@ -20,6 +20,7 @@ export type ITrackType = string | ITrack;
 export interface ITrack {
   title: string;
   groups?: string | string[];
+  trim?: number;
 }
 export interface ISection {
   title: string;

@@ -1,5 +1,7 @@
 <nav class="navbar fixed-top bg-secondary text-white text-nowrap flex-nowrap">
-    <h3 class="navbar-brand mr-2 my-0"><b>eMusicality</b></h3>
+    <a href="#">
+        <h4 class="text-white mr-2 my-0"><b>eMusicality</b></h4>
+    </a>
     <a class="m-0 text-muted text-truncate" href="https://www.facebook.com/salsaaddict" target="_blank"
         rel="noopener">by Pierre Henry</a>
 </nav>
@@ -26,7 +28,7 @@
     <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center">
         <div class="list-group">
             <a *ngFor="let song of songs | keyvalue" class="list-group-item list-group-item-action p-2"
-                [href]="songUrl(song.key)">
+                [routerLink]="songUrl(song.key)">
                 <div class="d-inline-flex justify-content-start align-items-center">
                     <img class="img-thumbnail mr-2" [src]="songImg(song.key)" [alt]="songAlt(song.value)">
                     <div class="d-inline-flex flex-column justify-content-between align-items-start">

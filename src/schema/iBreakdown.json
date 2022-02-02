@@ -124,6 +124,10 @@
                 "title": {
                     "title": "title",
                     "type": "string"
+                },
+                "trim": {
+                    "title": "trim",
+                    "type": "number"
                 }
             },
             "required": [

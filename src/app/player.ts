@@ -99,6 +99,12 @@ export class Player {
   public loopEnd() {
     Tone.Transport.loop = false;
   }
+  public dispose() {
+    if (this.playing) this.pause();
+    Tone.Transport.cancel();
+    this.tracks.forEach((track) => track.dispose());
+    this.players.dispose();
+  }
 }
 
 export class PlayerTrack {
@@ -108,12 +114,13 @@ export class PlayerTrack {
     track: Track,
     trim: number
   ) {
+    console.log(track, trim);
     this.trackId = `player_track_${index}`;
     this.title = track.title;
     this.groups = track.groups;
     players.add(track.trackId.toString(), track.fileName);
     this.player = players.player(track.trackId.toString());
-    this.player.sync().start(0, trim).toDestination();
+    this.player.sync().start(track.trim, trim).toDestination();
   }
 
   public readonly trackId: string;
@@ -121,6 +128,10 @@ export class PlayerTrack {
   public readonly groups: string[];
 
   private readonly player: Tone.Player;
+
+  public get loaded() {
+    return this.player.loaded;
+  }
 
   public mute() {
     this.player.mute = !this.player.mute;
@@ -137,5 +148,9 @@ export class PlayerTrack {
   }
   public get disabled() {
     return !this.enabled;
+  }
+
+  public dispose() {
+    this.player.dispose();
   }
 }

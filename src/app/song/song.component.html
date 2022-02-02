@@ -1,4 +1,4 @@
-<fieldset [disabled]="!player.loaded">
+<fieldset>
     <div id="container" class="overflow-hidden">
         <div id="header" class="d-inline-flex align-items-center p-2 bg-secondary">
             <img class="img-thumbnail mr-2" [src]="song.imageUrl" [alt]="song.title + ' by ' + song.artist">
@@ -28,8 +28,13 @@
                     </div>
                 </div>
                 <fieldset *ngFor="let track of player.tracks" [disabled]="track.disabled"
-                    class="m-1 px-2 py-1 border border-light rounded-lg text-nowrap bg-secondary">
-                    <div class="custom-control custom-switch">
+                    class="m-1 px-2 py-1 border border-light rounded-lg text-nowrap bg-secondary"
+                    [ngSwitch]="track.loaded">
+                    <div *ngSwitchCase="false">
+                        <i class="bi-cloud-download-fill animate__animated animate__fadeIn animate__infinite mx-2"></i>
+                        <label class="m-0" [innerHtml]="track.title"></label>
+                    </div>
+                    <div class="custom-control custom-switch" *ngSwitchCase="true">
                         <input class="custom-control-input" type="checkbox" role="switch" [id]="track.trackId"
                             [checked]="!track.muted" (click)="track.mute()">
                         <label class="custom-control-label" [for]="track.trackId" [innerHtml]="track.title"></label>
@@ -53,10 +58,9 @@
                         <div *ngFor="let block of song.blocks" class="border rounded text-dark m-1 px-2 py-1"
                             [style.border-color]="song.legend[block].solid()"
                             [style.background-image]="song.legend[block].gradient(dimmed(block))"
-                            style="cursor: pointer;" [appAnimateIf]="!dimmed(block) && !highlightedBlock"
-                            (pointerdown)="blockHighlight($event, block)" (pointerup)="blockHighlight($event)"
-                            (pointerout)="blockHighlight($event)">
-                            <h5 class="m-0"><b [innerHtml]="block"></b></h5>
+                            style="cursor: pointer;" [appAnimateIf]="!dimmed(block) && !highlightedBlock">
+                            <h5 class="m-0"><b [innerHtml]="block" (pointerdown)="blockHighlight($event, block)"
+                                    (pointerup)="blockHighlight($event)" (pointerout)="blockHighlight($event)"></b></h5>
                         </div>
                     </div>
                 </div>
@@ -105,11 +109,11 @@
             </div>
         </div>
         <div id="footer" class="d-inline-flex justify-content-center align-items-center p-2 bg-secondary">
-            <a class="btn btn-lg btn-info" href="/home">
+            <a class="btn btn-lg btn-info" routerLink="/home">
                 <i class="bi-list-ul"></i>
             </a>
-            <div [ngSwitch]="player.loaded">
-                <div class="btn-group btn-group-lg mx-2" [ngSwitch]="player.playing" *ngSwitchCase="true">
+            <fieldset [disabled]="!player.loaded">
+                <div class="btn-group btn-group-lg mx-2" [ngSwitch]="player.playing">
                     <button type="button" class="btn btn-info" (click)="first()">
                         <i class="bi-skip-backward-fill"></i>
                     </button>
@@ -119,8 +123,11 @@
                     <button type="button" class="btn btn-info" (click)="player.pause()" *ngSwitchCase="true">
                         <i class="bi-pause-fill"></i>
                     </button>
-                    <button type="button" class="btn btn-info" (click)="player.play()" *ngSwitchCase="false">
-                        <i class="bi-play-fill"></i>
+                    <button type="button" class="btn btn-info" (click)="player.play()" *ngSwitchCase="false"
+                        [ngSwitch]="player.loaded">
+                        <i *ngSwitchCase="true" class="bi-play-fill"></i>
+                        <i *ngSwitchCase="false"
+                            class="bi-cloud-download-fill animate__animated animate__fadeIn animate__infinite"></i>
                     </button>
                     <button type="button" class="btn btn-info" (click)="next()">
                         <i class="bi-skip-end-fill"></i>
@@ -129,12 +136,9 @@
                         <i class="bi-skip-forward-fill"></i>
                     </button>
                 </div>
-                <p class="m-0 btn btn-lg btn-warning mx-2" *ngSwitchCase="false">
-                    <i class="bi-cloud-download-fill animate__animated animate__fadeIn animate__infinite"></i>
-                </p>
-            </div>
+            </fieldset>
             <button type="button" class="btn btn-lg" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
-                (click)="loop()">
+                (click)="loop()" [disabled]="!player.loaded">
                 <i class="bi-arrow-repeat"></i>
             </button>
         </div>

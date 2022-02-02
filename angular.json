@@ -88,7 +88,10 @@
                 }
               ],
               "outputHashing": "all",
-              "sourceMap": true
+              "buildOptimizer": true,
+              "optimization": true,
+              "aot": true,
+              "baseHref": "https://www.emusicality.co.uk"
             },
             "development": {
               "buildOptimizer": false,

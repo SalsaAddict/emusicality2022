@@ -2,10 +2,10 @@
   "beatsPerMeasure": 8,
   "trim": 0.25,
   "tracks": [
-    "Gu&iuml;ra",
-    "Bongos",
-    "Bass",
-    { "title": "Segunda", "trim": 2.1 },
+    { "title": "Gu&iuml;ra", "groups": ["Rhythm"] },
+    { "title": "Bongos", "groups": ["Rhythm"] },
+    { "title": "Bass", "groups": ["Rhythm"] },
+    { "title": "Segunda", "groups": ["Rhythm"], "trim": 2.1 },
     { "title": "Requinto", "trim": 1.4 }
   ],
   "sections": [

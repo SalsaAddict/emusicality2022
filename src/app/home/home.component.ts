@@ -31,5 +31,10 @@ export class HomeComponent {
   public songAlt(song: ISong) {
     return `${song.title} by ${song.artist}`;
   }
+  public songNew(song: ISong) {
+    let dte = new Date();
+    dte.setDate(dte.getDate() - 7);
+    return new Date(song.dateAdded) >= dte;
+  }
   public readonly songs: ISongs;
 }

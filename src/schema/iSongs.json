@@ -13,9 +13,21 @@
                     "title": "bpm",
                     "type": "number"
                 },
+                "dateAdded": {
+                    "format": "date-time",
+                    "title": "dateAdded",
+                    "type": "string"
+                },
                 "genre": {
                     "title": "genre",
                     "type": "string"
+                },
+                "hidden": {
+                    "enum": [
+                        true
+                    ],
+                    "title": "hidden",
+                    "type": "boolean"
                 },
                 "title": {
                     "title": "title",
@@ -25,6 +37,7 @@
             "required": [
                 "artist",
                 "bpm",
+                "dateAdded",
                 "genre",
                 "title"
             ],

@@ -9,24 +9,36 @@
     "title": "Desn&uacute;date",
     "artist": "Dani J",
     "genre": "Bachata",
-    "bpm": 130
+    "bpm": 130,
+    "dateAdded": "2022-01-01T00:00:00Z"
   },
   "oldtownroad": {
     "title": "Old Town Road (Bachata Remix)",
     "artist": "DJ Dimen5ions &amp; DJ Tiguere",
     "genre": "Bachata",
-    "bpm": 132
+    "bpm": 132,
+    "dateAdded": "2022-01-01T00:00:00Z"
   },
   "babalu": {
     "title": "Babalu",
     "artist": "J-Style &amp; DJ Tronky (feat Blaze &amp; Stella)",
     "genre": "Bachata",
-    "bpm": 132
+    "bpm": 132,
+    "dateAdded": "2022-01-01T00:00:00Z",
+    "hidden": true
   },
   "meemborrachare": {
     "title": "Me Emborrachare",
     "artist": "Grupo Extra",
     "genre": "Bachata",
-    "bpm": 124
+    "bpm": 124,
+    "dateAdded": "2022-01-01T00:00:00Z"
+  },
+  "estesecreto": {
+    "title": "Este Secreto",
+    "artist": "Melvin War",
+    "genre": "Bachata",
+    "bpm": 134,
+    "dateAdded": "2022-04-28T00:00:00Z"
   }
 }

@@ -8,6 +8,8 @@ export interface ISong {
   artist: string;
   genre: string;
   bpm: number;
+  dateAdded: Date;
+  hidden?: true;
 }
 export interface IBreakdown {
   trim?: number;

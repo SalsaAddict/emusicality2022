@@ -28,7 +28,8 @@
     <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center">
         <div class="list-group">
             <a *ngFor="let song of songs | keyvalue" class="list-group-item list-group-item-action p-2"
-                [routerLink]="songUrl(song.key)">
+                [ngClass]="{ 'd-none': song.value.hidden }" [routerLink]="songUrl(song.key)"
+                [appAnimateIf]="songNew(song.value)" [animation]="'tada'">
                 <div class="d-inline-flex justify-content-start align-items-center">
                     <img class="img-thumbnail mr-2" [src]="songImg(song.key)" [alt]="songAlt(song.value)">
                     <div class="d-inline-flex flex-column justify-content-between align-items-start">

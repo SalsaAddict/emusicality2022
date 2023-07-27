@@ -10,17 +10,13 @@ import { GlobalService } from "../global.service";
 })
 export class HomeComponent {
   constructor(route: ActivatedRoute, public readonly global: GlobalService) {
-    this.ask = global.count % 10 === 0 && !global.never;
+    this.ask = global.count % 5 === 0;
     this.songs = route.snapshot.data["songs"];
   }
   public ask: boolean;
   public donate() {
     this.ask = false;
     window.open("https://paypal.me/salsaaddict/5");
-  }
-  public never() {
-    this.global.never = true;
-    this.ask = false;
   }
   public songUrl(songId: string) {
     return `/songs/${songId}`;

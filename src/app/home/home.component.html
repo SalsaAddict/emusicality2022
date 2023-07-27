@@ -6,26 +6,28 @@
         rel="noopener">by Pierre Henry</a>
 </nav>
 <div class="main">
-    <div class="vw-100 d-inline-flex justify-content-center">
-        <ngb-toast header="Please Support!" *ngIf="ask" (hide)="ask = false" [autohide]="false">
-            <p>This application is provided free of charge, but please consider making a donation to
-                support the development, maintenance and hosting of the software.</p>
-            <div class="text-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-success" (click)="donate()">
-                        <i class="bi-piggy-bank-fill"></i>&nbsp;Donate
-                    </button>
-                    <button type="button" class="btn btn-warning" (click)="ask = false">
-                        <i class="bi-hand-thumbs-up-fill"></i>&nbsp;Later
-                    </button>
-                    <button type="button" class="btn btn-danger" (click)="never()">
-                        <i class="bi-hand-thumbs-down-fill"></i>&nbsp;Never
-                    </button>
+    <div class="vw-100 d-inline-flex justify-content-center" *ngIf="ask">
+        <div class="card" style="max-width: 24rem; min-width: 12rem;">
+            <div class="card-body">
+                <p>This application is provided free of charge,
+                    but please consider making a <b class="text-warning">donation</b>
+                    to support the continuing development, maintenance and hosting of the software,
+                    <b class="text-warning">especially if you are regularly using this as a teaching tool</b>.
+                </p>
+                <div class="text-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success" (click)="donate()">
+                            <i class="bi-piggy-bank-fill"></i>&nbsp;Donate
+                        </button>
+                        <button type="button" class="btn btn-danger" (click)="ask = false">
+                            <i class="bi-hand-thumbs-up-fill"></i>&nbsp;Later
+                        </button>
+                    </div>
                 </div>
             </div>
-        </ngb-toast>
+        </div>
     </div>
-    <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center">
+    <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center" *ngIf="!ask">
         <div class="list-group">
             <a *ngFor="let song of songs | keyvalue" class="list-group-item list-group-item-action p-2"
                 [ngClass]="{ 'd-none': song.value.hidden }" [routerLink]="songUrl(song.key)"

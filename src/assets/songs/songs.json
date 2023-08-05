@@ -3,7 +3,8 @@
     "title": "Eso Es Amor",
     "artist": "Jiory",
     "genre": "Bachata",
-    "bpm": 132
+    "bpm": 132,
+    "dateAdded": "2022-01-01T00:00:00Z"
   },
   "desnudate": {
     "title": "Desn&uacute;date",
@@ -24,8 +25,7 @@
     "artist": "J-Style &amp; DJ Tronky (feat Blaze &amp; Stella)",
     "genre": "Bachata",
     "bpm": 132,
-    "dateAdded": "2022-01-01T00:00:00Z",
-    "hidden": true
+    "dateAdded": "2022-01-01T00:00:00Z"
   },
   "meemborrachare": {
     "title": "Me Emborrachare",

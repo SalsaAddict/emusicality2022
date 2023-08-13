@@ -1,0 +1,20 @@
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+x509_extensions = v3_req
+distinguished_name = dn
+
+[dn]
+C = GB
+ST = London
+O = BachataAddict
+OU = emusicality
+emailAddress = pierre.henry@emusicality.co.uk
+CN = localhost
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost

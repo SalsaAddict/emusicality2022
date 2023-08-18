@@ -10,3 +10,7 @@
   background-color: var(--info) !important;
   color: white;
 }
+
+a.disable-link {
+  pointer-events: none;
+}

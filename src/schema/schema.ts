@@ -9,15 +9,20 @@ export interface ISong {
   genre: string;
   bpm: number;
   dateAdded: Date;
+  spotify?: true;
   hidden?: true;
 }
 export interface IBreakdown {
+  lag?: number;
   trim?: number;
   beatsPerMeasure: number;
   tracks: ITracks;
   sections: ISection[];
 }
-export type ITracks = ITrackType[];
+export function isSpotifyTrack(iTracks: ITracks): iTracks is string {
+  return typeof iTracks === 'string';
+}
+export type ITracks = ITrackType[] | string;
 export type ITrackType = string | ITrack;
 export interface ITrack {
   title: string;

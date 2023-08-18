@@ -98,7 +98,7 @@
                                 <div *ngFor="let m of markers(); first as m1" class="blob" [ngClass]="{ 'ml-1': !m1 }"
                                     [style.border-color]="current.section?.color?.solid()"
                                     [style.background-image]="current.section?.color?.gradient(m !== current.beat)"
-                                    [appAnimateIf]="m === current.beat"
+                                    [appAnimateIf]="animateBeat(m)"
                                     (click)="player.seek(current.measure!.startIndex + m - 1)">
                                     <p class="m-0 text-dark font-monospace" *ngIf="m === current.beat">{{m}}</p>
                                 </div>
@@ -109,11 +109,11 @@
             </div>
         </div>
         <div id="footer" class="d-inline-flex justify-content-center align-items-center p-2 bg-secondary">
-            <a class="btn btn-lg btn-info" routerLink="/home">
+            <a class="btn btn-lg btn-info mr-2" routerLink="/home">
                 <i class="bi-list-ul"></i>
             </a>
             <fieldset [disabled]="!player.loaded">
-                <div class="btn-group btn-group-lg mx-2" [ngSwitch]="player.playing">
+                <div class="btn-group btn-group-lg" [ngSwitch]="player.playing">
                     <button type="button" class="btn btn-info" (click)="first()">
                         <i class="bi-skip-backward-fill"></i>
                     </button>
@@ -136,11 +136,11 @@
                         <i class="bi-skip-forward-fill"></i>
                     </button>
                 </div>
+                <button type="button" class="btn btn-lg ml-2" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
+                    *ngIf="!song.spotifyId" (click)="loop()">
+                    <i class="bi-arrow-repeat"></i>
+                </button>
             </fieldset>
-            <button type="button" class="btn btn-lg" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
-                (click)="loop()" [disabled]="!player.loaded">
-                <i class="bi-arrow-repeat"></i>
-            </button>
         </div>
     </div>
 </fieldset>

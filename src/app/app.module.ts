@@ -9,9 +9,10 @@ import unmuteAudio from "unmute-ios-audio";
 import { SongComponent } from "./song/song.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbCollapseModule, NgbDropdownModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { AnimateIfDirective } from "./animate-if.directive";
 import { HomeComponent } from "./home/home.component";
+import { SpotifyComponent } from './spotify/spotify.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { HomeComponent } from "./home/home.component";
     SongComponent,
     AnimateIfDirective,
     HomeComponent,
+    SpotifyComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,7 +32,8 @@ import { HomeComponent } from "./home/home.component";
       // or after 30 seconds (whichever comes first).
       registrationStrategy: "registerWhenStable:30000",
     }),
-    NgbModule,
+    NgbDropdownModule,
+    NgbCollapseModule
   ],
   providers: [],
   bootstrap: [AppComponent],

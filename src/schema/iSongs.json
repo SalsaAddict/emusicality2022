@@ -23,10 +23,13 @@
                     "type": "string"
                 },
                 "hidden": {
-                    "enum": [
-                        true
-                    ],
+                    "const": true,
                     "title": "hidden",
+                    "type": "boolean"
+                },
+                "spotify": {
+                    "const": true,
+                    "title": "spotify",
                     "type": "boolean"
                 },
                 "title": {

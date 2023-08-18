@@ -10,6 +10,7 @@ import { Color } from "../colors";
 import { Player } from "../player";
 import { Current } from "./current";
 import { Measure, Section, Song } from "./song";
+import { SpotifyService } from "../spotify.service";
 
 @Component({
   selector: "app-song",
@@ -17,9 +18,9 @@ import { Measure, Section, Song } from "./song";
   styleUrls: ["./song.component.css"],
 })
 export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
-  constructor(route: ActivatedRoute, private readonly zone: NgZone) {
+  constructor(route: ActivatedRoute, private readonly zone: NgZone, private readonly spotify: SpotifyService) {
     this.song = route.snapshot.data["song"];
-    this.player = new Player(this.zone, this.song);
+    this.player = new Player(this.zone, spotify, this.song);
     this.current = new Current(this.song, this.player);
     window.addEventListener("resize", this.resize);
   }
@@ -60,19 +61,18 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
         header.style.width =
         body.style.width =
         footer.style.width =
-          `${width}px`;
+        `${width}px`;
       container.style.height = `${height}px`;
       info.style.width = `${width - image.offsetWidth - bpm.offsetWidth}px`;
-      body.style.height = `${
-        height - header.offsetHeight - footer.offsetHeight
-      }px`;
+      body.style.height = `${height - header.offsetHeight - footer.offsetHeight
+        }px`;
       let portrait = [
-          "flex-row",
-          "flex-wrap",
-          "justify-content-center",
-          "align-items-end",
-          "tracks-portrait",
-        ],
+        "flex-row",
+        "flex-wrap",
+        "justify-content-center",
+        "align-items-end",
+        "tracks-portrait",
+      ],
         landscape = [
           "flex-shrink-1",
           "flex-column",
@@ -118,9 +118,8 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
       case 1:
         return "100%";
       default:
-        return `${
-          ((this.current.beats - section.startIndex + 1) / section.length) * 100
-        }%`;
+        return `${((this.current.beats - section.startIndex + 1) / section.length) * 100
+          }%`;
     }
   }
   public dimmed(block: string | Section): boolean {
@@ -139,11 +138,17 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   public markers(): number[] {
     return [1, 2, 3, 4, 5, 6, 7, 8].slice(0, this.current.measure?.length ?? 0);
   }
+  animateBeat(beat: number) {
+    switch (this.song.genre) {
+      case 'Salsa': return false;
+      default: return beat === this.current.beat;
+    }
+  }
   //#endregion
 
   //#region Transport
   public first() {
-    this.player.seek(1);
+    this.player.seek(0);
   }
   public previous() {
     if (this.current.phrase) {
@@ -160,7 +165,7 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
         }
       }
     }
-    this.player.seek(1);
+    this.player.seek(0);
   }
   public next() {
     if (!this.current.phrase) return;

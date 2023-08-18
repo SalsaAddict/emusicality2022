@@ -8,6 +8,7 @@ import {
   ISong,
   ITrackType,
   MDASH,
+  isSpotifyTrack,
 } from "src/schema/schema";
 import { assignColors, Color, IPalette } from "../colors";
 
@@ -21,17 +22,26 @@ export class Song implements IRange {
     this.artist = iSong.artist;
     this.genre = iSong.genre;
     this.bpm = iSong.bpm;
+    this.lag = iBreakdown.lag ?? 0;
     this.trim = iBreakdown.trim ?? 0;
     this.imageUrl = `/assets/songs/${this.songId}/cover.jpg`;
     this.groups = [];
     this.tracks = [];
-    iBreakdown.tracks.forEach((iTrack, trackId) => {
-      let track = new Track(songId, trackId, iTrack);
-      track.groups.forEach((group) => {
-        if (!this.groups.includes(group)) this.groups.push(group);
-      });
-      this.tracks.push(track);
-    });
+    if (iSong.spotify) {
+      if (isSpotifyTrack(iBreakdown.tracks)) {
+        this.spotifyId = iBreakdown.tracks;
+      }
+    } else {
+      if (!isSpotifyTrack(iBreakdown.tracks)) {
+        iBreakdown.tracks.forEach((iTrack, trackId) => {
+          let track = new Track(songId, trackId, iTrack);
+          track.groups.forEach((group) => {
+            if (!this.groups.includes(group)) this.groups.push(group);
+          });
+          this.tracks.push(track);
+        });
+      }
+    }
     this.groups.sort();
     let index = 1;
     this.blocks = [];
@@ -59,10 +69,12 @@ export class Song implements IRange {
   public readonly artist: string;
   public readonly genre: string;
   public readonly bpm: number;
+  public readonly lag: number;
   public readonly trim: number;
   public readonly imageUrl: string;
   public readonly groups: string[];
   public readonly tracks: Track[];
+  public readonly spotifyId?: string;
   public readonly blocks: string[];
   public readonly legend: IPalette;
   public readonly sections: Section[];

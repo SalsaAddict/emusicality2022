@@ -4,12 +4,17 @@ import { HomeComponent } from "./home/home.component";
 import { HomeResolver } from "./home/home.resolver";
 import { SongComponent } from "./song/song.component";
 import { SongResolver } from "./song/song.resolver";
+import { SpotifyComponent } from "./spotify/spotify.component";
 
 const routes: Routes = [
   {
     path: "home",
     component: HomeComponent,
     resolve: { songs: HomeResolver },
+  },
+  {
+    path: "spotify",
+    component: SpotifyComponent
   },
   {
     path: "songs/:songId",
@@ -23,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

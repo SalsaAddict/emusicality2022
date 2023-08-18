@@ -47,5 +47,21 @@
     "genre": "Bachata",
     "bpm": 115,
     "dateAdded": "2022-04-29T00:00:00Z"
+  },
+  "ultimabotella": {
+    "title": "Ultima Botella",
+    "artist": "Wilven Belo, Max Agende, Lenmelody",
+    "genre": "Bachata",
+    "bpm": 125,
+    "dateAdded": "2023-08-13T00:00:00Z",
+    "spotify": true
+  },
+  "palopalacampana": {
+    "title": "Palo Pa La Campana",
+    "artist": "Tromboranga",
+    "genre": "Salsa",
+    "bpm": 193,
+    "dateAdded": "2023-08-16T00:00:00Z",
+    "spotify": true
   }
 }

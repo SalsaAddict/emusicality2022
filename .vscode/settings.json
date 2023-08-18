@@ -5,15 +5,22 @@
   "editor.formatOnType": true,
   "json.schemas": [
     {
-      "fileMatch": ["/src/assets/songs/songs.json"],
+      "fileMatch": [
+        "/src/assets/songs/songs.json"
+      ],
       "url": "/src/schema/iSongs.json"
     },
     {
-      "fileMatch": ["/src/assets/songs/*/breakdown.json"],
+      "fileMatch": [
+        "/src/assets/songs/*/breakdown.json"
+      ],
       "url": "/src/schema/iBreakdown.json"
     }
   ],
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

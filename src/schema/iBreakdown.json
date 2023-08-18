@@ -9,6 +9,10 @@
                     "title": "beatsPerMeasure",
                     "type": "number"
                 },
+                "lag": {
+                    "title": "lag",
+                    "type": "number"
+                },
                 "sections": {
                     "items": {
                         "$ref": "#/definitions/ISection"
@@ -17,18 +21,8 @@
                     "type": "array"
                 },
                 "tracks": {
-                    "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/ITrack"
-                            },
-                            {
-                                "type": "string"
-                            }
-                        ]
-                    },
-                    "title": "tracks",
-                    "type": "array"
+                    "$ref": "#/definitions/ITracks",
+                    "title": "tracks"
                 },
                 "trim": {
                     "title": "trim",
@@ -58,32 +52,36 @@
             "title": "IMeasure",
             "type": "object"
         },
+        "IPhrase": {
+            "anyOf": [
+                {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/IMeasure"
+                            },
+                            {
+                                "type": [
+                                    "string",
+                                    "number"
+                                ]
+                            }
+                        ]
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "number"
+                }
+            ],
+            "title": "IPhrase"
+        },
         "ISection": {
             "additionalProperties": false,
             "properties": {
                 "phrases": {
                     "items": {
-                        "anyOf": [
-                            {
-                                "items": {
-                                    "anyOf": [
-                                        {
-                                            "$ref": "#/definitions/IMeasure"
-                                        },
-                                        {
-                                            "type": [
-                                                "string",
-                                                "number"
-                                            ]
-                                        }
-                                    ]
-                                },
-                                "type": "array"
-                            },
-                            {
-                                "type": "number"
-                            }
-                        ]
+                        "$ref": "#/definitions/IPhrase"
                     },
                     "title": "phrases",
                     "type": "array"
@@ -135,6 +133,31 @@
             ],
             "title": "ITrack",
             "type": "object"
+        },
+        "ITrackType": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ITrack"
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "title": "ITrackType"
+        },
+        "ITracks": {
+            "anyOf": [
+                {
+                    "items": {
+                        "$ref": "#/definitions/ITrackType"
+                    },
+                    "type": "array"
+                },
+                {
+                    "type": "string"
+                }
+            ],
+            "title": "ITracks"
         }
     }
 }

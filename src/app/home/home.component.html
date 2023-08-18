@@ -29,15 +29,28 @@
     </div>
     <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center" *ngIf="!ask">
         <div class="list-group">
-            <a *ngFor="let song of songs | keyvalue" class="list-group-item list-group-item-action p-2"
+            <button type="button" class="list-group-item list-group-item-action text-success"
+                *ngIf="global.enableSpotify" (click)="global.hideSpotify = !global.hideSpotify"
+                [ngSwitch]="global.hideSpotify">
+                <i class="bi-spotify mr-1"></i>
+                <span *ngSwitchCase="true">Show</span>
+                <span *ngSwitchCase="false">Hide</span>
+                Spotify Songs
+            </button>
+            <a *ngFor="let song of songs | keyvalue"
+                class="list-group-item list-group-item-action list-group-item-action p-2"
                 [ngClass]="{ 'd-none': song.value.hidden }" [routerLink]="songUrl(song.key)"
-                [appAnimateIf]="songNew(song.value)" [animation]="'tada'">
+                [ngbCollapse]="hide(song.value)" [appAnimateIf]="songNew(song.value)" [animation]="'tada'">
                 <div class="d-inline-flex justify-content-start align-items-center">
                     <img class="img-thumbnail mr-2" [src]="songImg(song.key)" [alt]="songAlt(song.value)">
                     <div class="d-inline-flex flex-column justify-content-between align-items-start">
                         <b [innerHtml]="song.value.title"></b>
                         <span [innerHtml]="song.value.artist"></span>
                         <small class="text-muted" [innerHtml]="song.value.genre"></small>
+                        <small class="text-success" *ngIf="song.value.spotify">
+                            <i class="bi-spotify mr-1"></i>
+                            <span>Spotify Only</span>
+                        </small>
                     </div>
                 </div>
             </a>

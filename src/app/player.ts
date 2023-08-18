@@ -1,10 +1,16 @@
-import { Song, Track } from "./song/song";
-import * as Tone from "tone";
 import { EventEmitter, NgZone } from "@angular/core";
+import { Song, Track } from "./song/song";
 import { ALL } from "src/schema/schema";
+import { PlayerTrack } from "./player-track";
+import { SpotifyService } from "./spotify.service";
+import unmuteIosAudio from "unmute-ios-audio";
+import * as Tone from "tone";
 
 export class Player {
-  constructor(private readonly zone: NgZone, song: Song) {
+  constructor(
+    private readonly zone: NgZone,
+    private readonly spotify: SpotifyService,
+    private readonly song: Song) {
     Tone.Transport.bpm.value = song.bpm;
     this.players = new Tone.Players();
     this.tracks = [];
@@ -12,13 +18,20 @@ export class Player {
       this.tracks.push(new PlayerTrack(this.players, index, track, song.trim))
     );
     Tone.Transport.schedule(() => {
-      zone.run(() => {
+      let stop = function () {
         Tone.Transport.stop();
         Tone.Transport.seconds = 0;
+      };
+      zone.run(() => {
+        if (this.song.spotifyId) {
+          this.spotify.pause()
+            .then(_ => { stop() });
+        }
+        else stop();
       });
-    }, this.beatsToSeconds(song.endIndex + 8));
+    }, this.beatsToSeconds(song.endIndex + 8) + song.lag);
     this.beats = new EventEmitter();
-    this.emit(this.emitBeats, "4n");
+    this.emit(this.emitBeats, "4n", this.song.lag);
     this.seconds = new EventEmitter();
     this.emit(this.emitSeconds, 1);
   }
@@ -26,22 +39,34 @@ export class Player {
   public readonly tracks: PlayerTrack[];
 
   //#region Emit
-  private emit(callback: () => void, interval: Tone.Unit.Time) {
+  private emit(callback: () => void, interval: Tone.Unit.Time, lag = 0) {
     new Tone.Loop((time) => {
       Tone.Draw.schedule(() => {
         this.zone.run(callback);
       }, time);
-    }, interval).start(0);
+    }, interval).start(lag);
   }
   public readonly beats: EventEmitter<number>;
+  private skew = () => {
+    if (!this.song.spotifyId) return;
+    const tolerance = 0.15;
+    const toneTime = Tone.Transport.seconds;
+    const spotifyTime = this.spotify.seconds;
+    const skew = Math.abs(toneTime - spotifyTime)
+    if (skew > tolerance) {
+      console.warn(`Clock skew is greater than ${tolerance} secs.`, { skew, toneTime, spotifyTime });
+    }
+  }
   private emitBeats = () => {
+    this.skew();
     let time: number = Tone.Transport.seconds;
-    time = Tone.TransportTime(time).quantize("4n");
+    time = Tone.TransportTime(time - this.song.lag).quantize("4n");
     let bbs = Tone.TransportTime(time).toBarsBeatsSixteenths().split(":");
     this.beats.emit(parseInt(bbs[0]) * 4 + parseInt(bbs[1]) + 1);
   };
   public readonly seconds: EventEmitter<Date>;
   private emitSeconds = () => {
+    this.skew();
     let date = new Date(0);
     date.setSeconds(Tone.Transport.seconds);
     this.seconds.emit(date);
@@ -58,14 +83,32 @@ export class Player {
 
   private fadeDefault: Tone.Unit.Time = "8n";
   public play(fadeIn: Tone.Unit.Time = this.fadeDefault) {
-    let fadeTime = Tone.TransportTime(fadeIn).toSeconds();
-    this.players.fadeIn = Tone.Transport.seconds > fadeTime ? fadeTime : 0;
-    Tone.start();
-    Tone.Transport.start();
+    unmuteIosAudio();
+    Tone.start().then(_ => {
+      if (this.song.spotifyId) {
+        this.spotify.play(this.song.spotifyId, Tone.Transport.seconds)
+          .then(_ => {
+            Tone.Transport.start();
+          });
+      }
+      else {
+        let fadeTime = Tone.TransportTime(fadeIn).toSeconds();
+        this.players.fadeIn = Tone.Transport.seconds > fadeTime ? fadeTime : 0;
+        Tone.Transport.start();
+      }
+    });
   }
   public pause(fadeOut: Tone.Unit.Time = this.fadeDefault) {
-    this.players.fadeOut = Tone.TransportTime(fadeOut).toSeconds();
-    Tone.Transport.pause();
+    if (this.song.spotifyId) {
+      this.spotify.pause()
+        .then(_ => {
+          Tone.Transport.pause();
+        });
+    }
+    else {
+      this.players.fadeOut = Tone.TransportTime(fadeOut).toSeconds();
+      Tone.Transport.pause();
+    }
   }
 
   private beatsToSeconds(beats: number): number {
@@ -73,9 +116,19 @@ export class Player {
   }
   public seek(beats: number) {
     Tone.Transport.loop = false;
-    Tone.Transport.seconds = this.beatsToSeconds(beats);
-    this.emitBeats();
-    this.emitSeconds();
+    const seconds = beats > 0 ? this.beatsToSeconds(beats) + this.song.lag : 0;
+    const update = (seconds: number) => {
+      Tone.Transport.seconds = seconds;
+      this.emitBeats();
+      this.emitSeconds();
+    };
+    if (this.song.spotifyId && this.playing) {
+      this.spotify.play(this.song.spotifyId, seconds)
+        .then(_ => {
+          update(seconds)
+        });
+    }
+    else update(seconds);
   }
 
   public group: string = ALL;
@@ -107,50 +160,3 @@ export class Player {
   }
 }
 
-export class PlayerTrack {
-  constructor(
-    players: Tone.Players,
-    index: number,
-    track: Track,
-    trim: number
-  ) {
-    console.log(track, trim);
-    this.trackId = `player_track_${index}`;
-    this.title = track.title;
-    this.groups = track.groups;
-    players.add(track.trackId.toString(), track.fileName);
-    this.player = players.player(track.trackId.toString());
-    this.player.sync().start(track.trim, trim).toDestination();
-  }
-
-  public readonly trackId: string;
-  public readonly title: string;
-  public readonly groups: string[];
-
-  private readonly player: Tone.Player;
-
-  public get loaded() {
-    return this.player.loaded;
-  }
-
-  public mute() {
-    this.player.mute = !this.player.mute;
-  }
-
-  public get muted() {
-    return this.player.mute;
-  }
-
-  private enabled: boolean = true;
-  public set disabled(value: boolean) {
-    this.player.mute = value;
-    this.enabled = !value;
-  }
-  public get disabled() {
-    return !this.enabled;
-  }
-
-  public dispose() {
-    this.player.dispose();
-  }
-}

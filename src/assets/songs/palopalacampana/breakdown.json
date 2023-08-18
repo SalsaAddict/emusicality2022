@@ -38,12 +38,12 @@
     },
     {
       "title": "Montuno",
-      "structure": "Pregones",
+      "structure": "Coro-Pregón",
       "phrases": [8]
     },
     {
       "title": "Montuno",
-      "structure": "Pregones",
+      "structure": "Coro-Pregón",
       "phrases": [8]
     },
     {
@@ -70,6 +70,21 @@
       "title": "Mambo",
       "structure": "Coro",
       "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Coda",
+      "structure": "Oriza",
+      "phrases": [4, 4]
     }
   ]
 }

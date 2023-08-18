@@ -64,6 +64,15 @@ export class SpotifyDeviceService {
                 player.addListener('not_ready', _ => {
                   delete this.device;
                 });
+                player.addListener('initialization_error', ({ message }) => {
+                  reject(error(message, HttpStatusCode.InternalServerError));
+                });
+                player.addListener('authentication_error', ({ message }) => {
+                  reject(error(message, HttpStatusCode.Unauthorized));
+                });
+                player.addListener('account_error', ({ message }) => {
+                  reject(error(message, HttpStatusCode.Unauthorized));
+                });
                 player.addListener('player_state_changed', this.state.update);
                 player.connect()
                   .then(connected => {

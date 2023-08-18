@@ -4,7 +4,7 @@ export class Color {
     public readonly hue: number,
     public readonly saturation: number = 90,
     public readonly lightness: number = 55
-  ) {}
+  ) { }
   private alpha(dimmed: boolean) {
     return dimmed ? 0.4 : 1;
   }
@@ -21,11 +21,11 @@ export class Color {
   }
   public gradient(dimmed: boolean = false) {
     let solid = this.hsla(
-        this.hue,
-        this.saturation,
-        this.lightness,
-        this.alpha(dimmed)
-      ),
+      this.hue,
+      this.saturation,
+      this.lightness,
+      this.alpha(dimmed)
+    ),
       light = this.hsla(
         this.hue,
         (this.saturation * 75) / 100,
@@ -77,8 +77,12 @@ export function assignColors(ids: string[]): IPalette {
       verse: "orange",
       "pre chorus": "yellow",
       chorus: "green",
+      montuno: "green",
       mambo: "ocean",
       bridge: "raspberry",
+      outro: "turquoise",
+      ending: "turquoise",
+      code: "turquoise"
     };
   ids.forEach((id) => {
     let lookup = id.trim().toLowerCase();

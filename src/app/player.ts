@@ -18,9 +18,11 @@ export class Player {
       this.tracks.push(new PlayerTrack(this.players, index, track, song.trim))
     );
     Tone.Transport.schedule(() => {
-      let stop = function () {
+      let stop = () => {
         Tone.Transport.stop();
         Tone.Transport.seconds = 0;
+        this.emitBeats();
+        this.emitSeconds();
       };
       zone.run(() => {
         if (this.song.spotifyId) {
@@ -53,8 +55,9 @@ export class Player {
     const toneTime = Tone.Transport.seconds;
     const spotifyTime = this.spotify.seconds;
     const skew = Math.abs(toneTime - spotifyTime)
-    if (skew > tolerance) {
-      console.warn(`Clock skew is greater than ${tolerance} secs.`, { skew, toneTime, spotifyTime });
+    if (this.playing && skew > tolerance) {
+      console.warn(`Clock skew is greater than ${tolerance} secs.`,
+        { skew, toneTime, spotifyTime });
     }
   }
   private emitBeats = () => {

@@ -1,16 +1,9 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { RouterStateSnapshot, ActivatedRouteSnapshot } from "@angular/router";
+import { inject } from "@angular/core";
+import { ResolveFn } from "@angular/router";
+import { DataService } from "../data.service";
 import { ISongs } from "src/schema/schema";
-import { GlobalService } from "../global.service";
 
-@Injectable({ providedIn: "root" })
-export class HomeResolver {
-  constructor(
-    private readonly http: HttpClient,
-    private readonly global: GlobalService) { }
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.global.songId = null;
-    return this.http.get<ISongs>("/assets/songs/songs.json");
+export const homeResolver: ResolveFn<ISongs>
+  = async (_route, _state, data = inject(DataService)) => {
+    return await data.iSongs();
   }
-}

@@ -1,0 +1,75 @@
+{
+  "lag": 0.7,
+  "trim": 0,
+  "beatsPerMeasure": 8,
+  "tracks": "0qLnHf2YgXGFzyBjBgiGJ6",
+  "sections": [
+    {
+      "title": "Intro",
+      "phrases": [
+        ["Derecho", 8, 8, 8],
+        ["Majao", 8]
+      ]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [4, [8, 8, 4]]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [2, [8, 4]]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [[8, 8, 8, 8, 4]]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [2, [8, 4]]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Derecho",
+      "phrases": [2, 2]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Majao",
+      "phrases": [2, 2]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Majao",
+      "phrases": [4]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [4, [8, 8, 4]]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [2, [8, 4]]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [[8, 8, 8, 8, 4]]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [2, 2, [8, 4]]
+    },
+    {
+      "title": "Outro",
+      "structure": "Derecho",
+      "phrases": [[8, 4], 1]
+    }
+  ]
+}

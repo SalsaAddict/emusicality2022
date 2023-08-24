@@ -1,32 +1,35 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalService } from '../global.service';
-import { SpotifyAuthService } from '../spotify-auth.service';
-import { DOCUMENT } from '@angular/common';
+import { SpotifyAuthService } from './spotify-auth.service';
+import { DataService } from '../data.service';
 
-@Component({ selector: 'app-spotify', template: '' })
-export class SpotifyComponent {
+@Component({
+  selector: 'app-spotify',
+  template: ''
+})
+export class SpotifyComponent implements OnInit {
   constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    spotifyAuth: SpotifyAuthService,
-    router: Router,
-    global: GlobalService) {
-    const params = new URLSearchParams(document.defaultView?.location.search);
-    if (params.has('enabled')) {
-      global.enableSpotify = params.get('enabled')?.toLocaleLowerCase() !== 'false';
-      global.hideSpotify = false;
-      router.navigate(['/home']);
-    }
-    else spotifyAuth.getAccessToken({
-      code: params.get('code') ?? '',
-      state: params.get('state') ?? ''
-    }).then(_ => {
-      if (global.songId)
-        router.navigate([`/songs/${global.songId}`]);
+    private readonly router: Router,
+    private readonly data: DataService,
+    private readonly auth: SpotifyAuthService) {
+  }
+  async ngOnInit() {
+    const search = new URLSearchParams(document.location.search);
+    if (search.has('code')) {
+      const redirect = {
+        code: search.get('code') ?? '',
+        state: search.get('state') ?? ''
+      };
+      const accessToken = await this.auth.getAccessToken(redirect);
+      if (accessToken)
+        this.router.navigate([this.data.redirectPath])
       else
-        router.navigate(['/home']);
-    }, _ => {
-      router.navigate(['/home']);
-    });
+        this.router.navigate(['home'])
+    }
+    else if (search.has('enabled')) {
+      this.data.spotifyEnabled = search.get('enabled')?.toLowerCase().trim() !== 'false';
+      this.router.navigate(['home']);
+    }
+    else this.router.navigate(['home']);
   }
 }

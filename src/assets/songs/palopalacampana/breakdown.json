@@ -33,18 +33,18 @@
       "title": "Bridge",
       "phrases": [
         ["Afro", 8],
-        ["&mdash;", 8]
+        [{}, 8]
       ]
     },
     {
       "title": "Montuno",
       "structure": "Coro-Pregón",
-      "phrases": [8]
+      "phrases": [4, 4]
     },
     {
       "title": "Montuno",
       "structure": "Coro-Pregón",
-      "phrases": [8]
+      "phrases": [4, 4]
     },
     {
       "title": "Mambo",

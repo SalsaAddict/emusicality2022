@@ -10,7 +10,7 @@ import { Color } from "../colors";
 import { Player } from "../player";
 import { Current } from "./current";
 import { Measure, Section, Song } from "./song";
-import { SpotifyService } from "../spotify.service";
+import { SpotifyService } from "../spotify/spotify.service";
 
 @Component({
   selector: "app-song",
@@ -18,9 +18,14 @@ import { SpotifyService } from "../spotify.service";
   styleUrls: ["./song.component.css"],
 })
 export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
-  constructor(route: ActivatedRoute, private readonly zone: NgZone, private readonly spotify: SpotifyService) {
-    this.song = route.snapshot.data["song"];
-    this.player = new Player(this.zone, spotify, this.song);
+  constructor(
+    route: ActivatedRoute,
+    private readonly zone: NgZone,
+    spotify: SpotifyService) {
+    this.song = route.snapshot.data['song'];
+    const tone = route.snapshot.data['tone'];
+    const device = route.snapshot.data['device'];
+    this.player = new Player(this.zone, this.song, spotify, device);
     this.current = new Current(this.song, this.player);
     window.addEventListener("resize", this.resize);
   }
@@ -93,6 +98,7 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   //#endregion
 
   //#region Render
+  get spotifyUrl() { return `https://open.spotify.com/track/${this.song.spotifyId}`; }
   public highlightedBlock?: string;
   public blockHighlight(event: Event, block?: string) {
     event.stopPropagation();
@@ -147,43 +153,43 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   //#endregion
 
   //#region Transport
-  public first() {
-    this.player.seek(0);
+  public async first() {
+    await this.player.seek(0);
   }
-  public previous() {
+  public async previous() {
     if (this.current.phrase) {
       let pi = this.current.section!.phrases.indexOf(this.current.phrase!);
       if (pi > 0) {
-        this.player.seek(this.current.section!.phrases[pi - 1][0].startIndex);
+        await this.player.seek(this.current.section!.phrases[pi - 1][0].startIndex);
         return;
       } else {
         let si = this.song.sections.indexOf(this.current.section!);
         if (si > 0) {
           let s = this.song.sections[si - 1];
-          this.player.seek(s.phrases[s.phrases.length - 1][0].startIndex);
+          await this.player.seek(s.phrases[s.phrases.length - 1][0].startIndex);
           return;
         }
       }
     }
-    this.player.seek(0);
+    await this.player.seek(0);
   }
-  public next() {
+  public async next() {
     if (!this.current.phrase) return;
     let si = this.song.sections.indexOf(this.current.section!),
       pi = this.current.section!.phrases.indexOf(this.current.phrase!);
     if (pi < this.current.section!.phrases.length - 1) {
-      this.player.seek(this.current.section!.phrases[pi + 1][0].startIndex);
+      await this.player.seek(this.current.section!.phrases[pi + 1][0].startIndex);
       return;
     } else {
       if (si < this.song.sections.length - 1) {
-        this.player.seek(this.song.sections[si + 1].phrases[0][0].startIndex);
+        await this.player.seek(this.song.sections[si + 1].phrases[0][0].startIndex);
         return;
       }
     }
   }
-  public last() {
+  public async last() {
     let s = this.song.sections[this.song.sections.length - 1];
-    this.player.seek(s.phrases[s.phrases.length - 1][0].startIndex);
+    await this.player.seek(s.phrases[s.phrases.length - 1][0].startIndex);
   }
   public loop() {
     if (!this.player.loop) {

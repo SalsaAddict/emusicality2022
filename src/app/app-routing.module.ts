@@ -1,16 +1,19 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { HomeComponent } from "./home/home.component";
-import { HomeResolver } from "./home/home.resolver";
+import { homeResolver } from "./home/home.resolver";
 import { SongComponent } from "./song/song.component";
-import { SongResolver } from "./song/song.resolver";
+import { songResolver } from "./song/song.resolver";
 import { SpotifyComponent } from "./spotify/spotify.component";
+import { spotifyResolver } from "./spotify/spotify.resolver";
 
 const routes: Routes = [
   {
     path: "home",
     component: HomeComponent,
-    resolve: { songs: HomeResolver },
+    resolve: {
+      songs: homeResolver
+    },
   },
   {
     path: "spotify",
@@ -19,7 +22,10 @@ const routes: Routes = [
   {
     path: "songs/:songId",
     component: SongComponent,
-    resolve: { song: SongResolver },
+    resolve: {
+      song: songResolver,
+      device: spotifyResolver
+    },
   },
   { path: "**", redirectTo: "home" },
 ];

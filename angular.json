@@ -65,7 +65,9 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "unmute-ios-audio"
+              "unmute-ios-audio",
+              "spotify-web-api-js",
+              "automation-events"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"

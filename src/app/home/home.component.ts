@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ISong, ISongs } from "src/schema/schema";
-import { GlobalService } from "../global.service";
-import { SpotifyService } from "../spotify.service";
-import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
+import { DataService } from "../data.service";
+import { SpotifyService } from "../spotify/spotify.service";
 
 @Component({
   selector: "app-home",
@@ -13,9 +12,9 @@ import { NgbCollapseModule } from "@ng-bootstrap/ng-bootstrap";
 export class HomeComponent {
   constructor(
     route: ActivatedRoute,
-    public readonly global: GlobalService,
+    public readonly data: DataService,
     public readonly spotify: SpotifyService) {
-    this.ask = global.count % 5 === 0;
+    this.ask = data.count % 5 === 0;
     this.songs = route.snapshot.data["songs"];
   }
   public ask: boolean;
@@ -39,6 +38,6 @@ export class HomeComponent {
   }
   public readonly songs: ISongs;
   hide(song: ISong): boolean {
-    return this.global.hideSpotify && (song.spotify ?? false);
+    return this.data.spotifyHidden && (song.spotify ?? false);
   }
 }

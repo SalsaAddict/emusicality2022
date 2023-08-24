@@ -20,10 +20,14 @@ export class AnimateIfDirective {
   private animate() {
     if (this.condition) {
       this.element.nativeElement.classList.add(...this.classes);
-      this.element.nativeElement.style.setProperty(
-        "--animate-duration",
-        `${Tone.TransportTime("2n").toSeconds()}s`
-      );
+      /*
+      this.tone.getTone().then(tone => {
+        this.element.nativeElement.style.setProperty(
+          "--animate-duration",
+          `${tone.TransportTime("2n").toSeconds()}s`
+        );
+      });
+      */
     } else {
       this.element.nativeElement.classList.remove(...this.classes);
       this.element.nativeElement.style.removeProperty("--animate-duration");

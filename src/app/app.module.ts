@@ -5,11 +5,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
-import unmuteAudio from "unmute-ios-audio";
 import { SongComponent } from "./song/song.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
-import { NgbCollapseModule, NgbDropdownModule, NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbCollapseModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { AnimateIfDirective } from "./animate-if.directive";
 import { HomeComponent } from "./home/home.component";
 import { SpotifyComponent } from './spotify/spotify.component';
@@ -38,8 +37,4 @@ import { SpotifyComponent } from './spotify/spotify.component';
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor() {
-    unmuteAudio();
-  }
-}
+export class AppModule { }

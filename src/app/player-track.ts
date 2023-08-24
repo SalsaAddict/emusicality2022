@@ -1,9 +1,9 @@
-import * as Tone from 'tone';
 import { Track } from './song/song';
+import { Players, Player } from 'tone';
 
 export class PlayerTrack {
     constructor(
-        players: Tone.Players,
+        players: Players,
         index: number,
         track: Track,
         trim: number
@@ -20,7 +20,7 @@ export class PlayerTrack {
     public readonly title: string;
     public readonly groups: string[];
 
-    private readonly player: Tone.Player;
+    private readonly player: Player;
 
     public get loaded() {
         return this.player.loaded;

@@ -13,7 +13,7 @@
             </div>
         </div>
         <div id="body" class="d-inline-flex">
-            <div id="tracks" class="d-inline-flex p-1">
+            <div id="tracks" [ngClass]="song.spotifyId ? 'd-none' : 'd-inline-flex p-1'">
                 <div class="text-center">
                     <h5 class="m-1 initialism text-muted"><b>Instruments</b></h5>
                 </div>
@@ -40,6 +40,9 @@
                         <label class="custom-control-label" [for]="track.trackId" [innerHtml]="track.title"></label>
                     </div>
                 </fieldset>
+                <a [href]="spotifyUrl" class="btn btn-success" *ngIf="song.spotifyId">
+                    <i class="bi-spotify"></i>
+                </a>
             </div>
             <div id="breakdown"
                 class="flex-fill overflow-auto p-2 d-inline-flex flex-column justify-content-start align-items-center">
@@ -136,11 +139,11 @@
                         <i class="bi-skip-forward-fill"></i>
                     </button>
                 </div>
-                <button type="button" class="btn btn-lg ml-2" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
-                    *ngIf="!song.spotifyId" (click)="loop()">
-                    <i class="bi-arrow-repeat"></i>
-                </button>
             </fieldset>
+            <button type="button" class="btn btn-lg ml-2" [ngClass]="player.loop ? 'btn-info' : 'btn-outline-info'"
+                *ngIf="!song.spotifyId" [disabled]="!player.loaded" (click)="loop()">
+                <i class="bi-arrow-repeat"></i>
+            </button>
         </div>
     </div>
 </fieldset>

@@ -80,9 +80,9 @@ export function assignColors(ids: string[]): IPalette {
       montuno: "green",
       mambo: "ocean",
       bridge: "raspberry",
-      outro: "turquoise",
-      ending: "turquoise",
-      code: "turquoise"
+      outro: "red",
+      ending: "red",
+      code: "red"
     };
   ids.forEach((id) => {
     let lookup = id.trim().toLowerCase();

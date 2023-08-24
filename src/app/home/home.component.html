@@ -1,9 +1,22 @@
-<nav class="navbar fixed-top bg-secondary text-white text-nowrap flex-nowrap">
-    <a href="#">
-        <h4 class="text-white mr-2 my-0"><b>eMusicality</b></h4>
-    </a>
-    <a class="m-0 text-muted text-truncate" href="https://www.facebook.com/salsaaddict" target="_blank"
-        rel="noopener">by Pierre Henry</a>
+<nav class="navbar navbar-light bg-secondary">
+    <div class="container-fluid">
+        <span>
+            <b class="text-white">emusicality</b>&nbsp;
+            <a href="https://www.facebook.com/salsaaddict">
+                <small class="text-muted">by Pierre Henry</small>
+            </a>
+        </span>
+        <div [ngSwitch]="data.isOnline">
+            <span *ngSwitchCase="true" class="badge badge-success">
+                <i class="bi-wifi mr-1"></i>
+                <span>Online</span>
+            </span>
+            <span *ngSwitchCase="false" class="badge badge-danger">
+                <i class="bi-wifi-off mr-1"></i>
+                <span>Offline</span>
+            </span>
+        </div>
+    </div>
 </nav>
 <div class="main">
     <div class="vw-100 d-inline-flex justify-content-center" *ngIf="ask">
@@ -30,8 +43,8 @@
     <div class="vw-100 d-inline-flex flex-column justify-content-start align-items-center" *ngIf="!ask">
         <div class="list-group">
             <button type="button" class="list-group-item list-group-item-action text-success"
-                *ngIf="global.enableSpotify" (click)="global.hideSpotify = !global.hideSpotify"
-                [ngSwitch]="global.hideSpotify">
+                *ngIf="data.spotifyEnabled" (click)="data.spotifyHidden = !data.spotifyHidden"
+                [ngSwitch]="data.spotifyHidden">
                 <i class="bi-spotify mr-1"></i>
                 <span *ngSwitchCase="true">Show</span>
                 <span *ngSwitchCase="false">Hide</span>
@@ -43,14 +56,21 @@
                 [ngbCollapse]="hide(song.value)" [appAnimateIf]="songNew(song.value)" [animation]="'tada'">
                 <div class="d-inline-flex justify-content-start align-items-center">
                     <img class="img-thumbnail mr-2" [src]="songImg(song.key)" [alt]="songAlt(song.value)">
-                    <div class="d-inline-flex flex-column justify-content-between align-items-start">
+                    <div class="d-inline-flex flex-column justify-content-between align-items-start"
+                        [ngSwitch]="!!song.value.spotify">
                         <b [innerHtml]="song.value.title"></b>
                         <span [innerHtml]="song.value.artist"></span>
                         <small class="text-muted" [innerHtml]="song.value.genre"></small>
-                        <small class="text-success" *ngIf="song.value.spotify">
-                            <i class="bi-spotify mr-1"></i>
-                            <span>Spotify Only</span>
-                        </small>
+                        <div *ngIf="data.spotifyEnabled">
+                            <small class="text-success" *ngSwitchCase="true">
+                                <i class="bi-spotify mr-1"></i>
+                                <span>Spotify Only</span>
+                            </small>
+                            <small class="text-info" *ngSwitchCase="false">
+                                <i class="bi-check-circle-fill mr-1"></i>
+                                <span>Instrument Breakdown</span>
+                            </small>
+                        </div>
                     </div>
                 </div>
             </a>

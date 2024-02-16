@@ -3,10 +3,16 @@
   "trim": 0,
   "beatsPerMeasure": 8,
   "tracks": [
-    { "title": "Vocals", "groups": ["Vocals"] },
-    { "title": "Bongo, Gu&iuml;a &amp; Kick", "groups": ["Percussion"] },
-    { "title": "Bass Guitar", "groups": ["Guitars"] },
-    { "title": "Lead &amp; Rhythm Guitars", "groups": ["Guitars"] }
+    { "title": "Vocals", "groups": ["Acapella"] },
+    {
+      "title": "Bongo, Gu&iuml;ra &amp; Kick",
+      "groups": ["Percussion", "Instrumental"]
+    },
+    { "title": "Bass Guitar", "groups": ["Guitars", "Instrumental"] },
+    {
+      "title": "Lead &amp; Rhythm Guitars",
+      "groups": ["Guitars", "Instrumental"]
+    }
   ],
   "sections": [
     {

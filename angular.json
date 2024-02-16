@@ -44,6 +44,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "baseHref": "/",
             "outputPath": "dist/emusicality-tone",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -96,7 +97,7 @@
               "buildOptimizer": true,
               "optimization": true,
               "aot": true,
-              "baseHref": "https://www.emusicality.co.uk"
+              "baseHref": "/"
             },
             "development": {
               "buildOptimizer": false,

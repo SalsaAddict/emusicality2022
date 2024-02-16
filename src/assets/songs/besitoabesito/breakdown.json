@@ -2,7 +2,12 @@
   "lag": 0.7,
   "trim": 0,
   "beatsPerMeasure": 8,
-  "tracks": "0qLnHf2YgXGFzyBjBgiGJ6",
+  "tracks": [
+    { "title": "Vocals", "groups": ["Vocals"] },
+    { "title": "Bongo, Gu&iuml;a &amp; Kick", "groups": ["Percussion"] },
+    { "title": "Bass Guitar", "groups": ["Guitars"] },
+    { "title": "Lead &amp; Rhythm Guitars", "groups": ["Guitars"] }
+  ],
   "sections": [
     {
       "title": "Intro",

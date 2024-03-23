@@ -103,7 +103,8 @@
                                     [style.background-image]="current.section?.color?.gradient(m !== current.beat)"
                                     [appAnimateIf]="animateBeat(m)"
                                     (click)="player.seek(current.measure!.startIndex + m - 1)">
-                                    <p class="m-0 text-dark font-monospace" *ngIf="m === current.beat">{{m}}</p>
+                                    <p class="m-0 text-dark font-monospace" *ngIf="m === current.beat">{{m +
+                                        (this.current.measure?.offset ?? 0)}}</p>
                                 </div>
                             </div>
                         </div>

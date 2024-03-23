@@ -44,6 +44,10 @@
                     "title": "beats",
                     "type": "number"
                 },
+                "offset": {
+                    "title": "offset",
+                    "type": "number"
+                },
                 "structure": {
                     "title": "structure",
                     "type": "string"

@@ -8,9 +8,9 @@ import {
   ISong,
   ITrackType,
   MDASH,
-  isSpotifyTrack,
-} from "src/schema/schema";
-import { assignColors, Color, IPalette } from "../colors";
+  isSpotifyTrack
+} from 'src/schema/schema';
+import { assignColors, Color, IPalette } from '../colors';
 
 export class Song implements IRange {
   constructor(
@@ -90,13 +90,13 @@ export class Track {
     iTrack: ITrackType
   ) {
     this.trackId = trackId;
-    this.title = typeof iTrack === "string" ? iTrack : iTrack.title;
+    this.title = typeof iTrack === 'string' ? iTrack : iTrack.title;
     this.fileName = `/assets/songs/${songId}/track${trackId}.trk`;
-    if (typeof iTrack !== "string" && iTrack.groups)
+    if (typeof iTrack !== 'string' && iTrack.groups)
       this.groups =
-        typeof iTrack.groups === "string" ? [iTrack.groups] : iTrack.groups;
+        typeof iTrack.groups === 'string' ? [iTrack.groups] : iTrack.groups;
     else this.groups = [];
-    this.trim = typeof iTrack === "string" ? 0 : iTrack.trim ?? 0;
+    this.trim = typeof iTrack === 'string' ? 0 : iTrack.trim ?? 0;
     this.groups.push(ALL);
     this.groups.sort();
   }
@@ -126,26 +126,29 @@ export class Section implements IRange {
     ) {
       iSection.phrases.forEach((iPhrase) => {
         let phrase: Measure[] = [];
-        if (typeof iPhrase === "number") {
+        if (typeof iPhrase === 'number') {
           for (let i = 0; i < iPhrase; i++) {
-            let m = new Measure(structure!, beatsPerMeasure, false, index);
+            let m = new Measure(structure!, beatsPerMeasure, 0, false, index);
             index = m.endIndex + 1;
             phrase.push(m);
           }
         } else
           iPhrase.forEach((measure) => {
-            let beats: number, warning: boolean;
-            if (typeof measure === "number") {
+            let beats: number,
+              warning: boolean,
+              offset: number = 0;
+            if (typeof measure === 'number') {
               beats = measure;
-            } else if (typeof measure === "string") {
+            } else if (typeof measure === 'string') {
               structure = measure ?? structure;
               beats = beatsPerMeasure;
             } else {
               structure = measure.structure ?? MDASH;
               beats = measure.beats ?? beatsPerMeasure;
+              offset = measure.offset ?? 0;
             }
             warning = beats !== beatsPerMeasure;
-            let m = new Measure(structure!, beats, warning, index);
+            let m = new Measure(structure!, beats, offset, warning, index);
             index = m.endIndex + 1;
             phrase.push(m);
           });
@@ -168,6 +171,7 @@ export class Measure implements IRange {
   constructor(
     public readonly structure: string,
     public readonly beats: number,
+    public readonly offset: number,
     public readonly warning: boolean,
     public readonly startIndex: number
   ) {

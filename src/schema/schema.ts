@@ -1,5 +1,5 @@
-export const MDASH = "&mdash;";
-export const ALL = MDASH + " All " + MDASH;
+export const MDASH = '&mdash;';
+export const ALL = MDASH + ' All ' + MDASH;
 export interface ISongs {
   [songId: string]: ISong;
 }
@@ -39,6 +39,7 @@ export type IPhrase = number | (string | number | IMeasure)[];
 export interface IMeasure {
   structure?: string;
   beats?: number;
+  offset?: number;
 }
 export interface IMetadata {
   songId: string;

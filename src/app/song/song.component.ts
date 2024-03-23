@@ -3,31 +3,32 @@ import {
   Component,
   NgZone,
   OnDestroy,
-  OnInit,
-} from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Color } from "../colors";
-import { Player } from "../player";
-import { Current } from "./current";
-import { Measure, Section, Song } from "./song";
-import { SpotifyService } from "../spotify/spotify.service";
+  OnInit
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Color } from '../colors';
+import { Player } from '../player';
+import { Current } from './current';
+import { Measure, Section, Song } from './song';
+import { SpotifyService } from '../spotify/spotify.service';
 
 @Component({
-  selector: "app-song",
-  templateUrl: "./song.component.html",
-  styleUrls: ["./song.component.css"],
+  selector: 'app-song',
+  templateUrl: './song.component.html',
+  styleUrls: ['./song.component.css']
 })
 export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   constructor(
     route: ActivatedRoute,
     private readonly zone: NgZone,
-    spotify: SpotifyService) {
+    spotify: SpotifyService
+  ) {
     this.song = route.snapshot.data['song'];
     const tone = route.snapshot.data['tone'];
     const device = route.snapshot.data['device'];
     this.player = new Player(this.zone, this.song, spotify, device);
     this.current = new Current(this.song, this.player);
-    window.addEventListener("resize", this.resize);
+    window.addEventListener('resize', this.resize);
   }
   ngOnInit() {
     this.first();
@@ -53,43 +54,44 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.zone.run(() => {
       let width = window.innerWidth,
         height = window.innerHeight,
-        container = document.getElementById("container") as HTMLDivElement,
-        header = document.getElementById("header") as HTMLDivElement,
+        container = document.getElementById('container') as HTMLDivElement,
+        header = document.getElementById('header') as HTMLDivElement,
         image = header.childNodes[0] as HTMLImageElement,
         info = header.childNodes[1] as HTMLDivElement,
         bpm = header.childNodes[2] as HTMLDivElement,
-        body = document.getElementById("body") as HTMLDivElement,
-        tracks = document.getElementById("tracks") as HTMLDivElement,
-        breakdown = document.getElementById("breakdown") as HTMLDivElement,
-        footer = document.getElementById("footer") as HTMLDivElement;
+        body = document.getElementById('body') as HTMLDivElement,
+        tracks = document.getElementById('tracks') as HTMLDivElement,
+        breakdown = document.getElementById('breakdown') as HTMLDivElement,
+        footer = document.getElementById('footer') as HTMLDivElement;
       container.style.width =
         header.style.width =
         body.style.width =
         footer.style.width =
-        `${width}px`;
+          `${width}px`;
       container.style.height = `${height}px`;
       info.style.width = `${width - image.offsetWidth - bpm.offsetWidth}px`;
-      body.style.height = `${height - header.offsetHeight - footer.offsetHeight
-        }px`;
+      body.style.height = `${
+        height - header.offsetHeight - footer.offsetHeight
+      }px`;
       let portrait = [
-        "flex-row",
-        "flex-wrap",
-        "justify-content-center",
-        "align-items-end",
-        "tracks-portrait",
-      ],
+          'flex-row',
+          'flex-wrap',
+          'justify-content-center',
+          'align-items-end',
+          'tracks-portrait'
+        ],
         landscape = [
-          "flex-shrink-1",
-          "flex-column",
-          "align-items-stretch",
-          "tracks-landscape",
+          'flex-shrink-1',
+          'flex-column',
+          'align-items-stretch',
+          'tracks-landscape'
         ];
       if (height > width) {
-        body.classList.add("flex-column-reverse");
+        body.classList.add('flex-column-reverse');
         tracks.classList.remove(...landscape);
         tracks.classList.add(...portrait);
       } else {
-        body.classList.remove("flex-column-reverse");
+        body.classList.remove('flex-column-reverse');
         tracks.classList.remove(...portrait);
         tracks.classList.add(...landscape);
       }
@@ -98,7 +100,9 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   //#endregion
 
   //#region Render
-  get spotifyUrl() { return `https://open.spotify.com/track/${this.song.spotifyId}`; }
+  get spotifyUrl() {
+    return `https://open.spotify.com/track/${this.song.spotifyId}`;
+  }
   public highlightedBlock?: string;
   public blockHighlight(event: Event, block?: string) {
     event.stopPropagation();
@@ -120,19 +124,20 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   public sectionProgress(section: Section): string {
     switch (this.current.state(section)) {
       case -1:
-        return "0%";
+        return '0%';
       case 1:
-        return "100%";
+        return '100%';
       default:
-        return `${((this.current.beats - section.startIndex + 1) / section.length) * 100
-          }%`;
+        return `${
+          ((this.current.beats - section.startIndex + 1) / section.length) * 100
+        }%`;
     }
   }
   public dimmed(block: string | Section): boolean {
-    let title = typeof block === "string" ? block : block.title;
+    let title = typeof block === 'string' ? block : block.title;
     if (this.highlightedBlock) return this.highlightedBlock !== title;
     if (!this.current.section) return false;
-    if (typeof block !== "string")
+    if (typeof block !== 'string')
       return this.player.loop && block !== this.current.section;
     return this.current.section.title !== title;
   }
@@ -146,8 +151,10 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
   }
   animateBeat(beat: number) {
     switch (this.song.genre) {
-      case 'Salsa': return false;
-      default: return beat === this.current.beat;
+      case 'Salsa':
+        return false;
+      default:
+        return beat === this.current.beat;
     }
   }
   //#endregion
@@ -160,7 +167,9 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
     if (this.current.phrase) {
       let pi = this.current.section!.phrases.indexOf(this.current.phrase!);
       if (pi > 0) {
-        await this.player.seek(this.current.section!.phrases[pi - 1][0].startIndex);
+        await this.player.seek(
+          this.current.section!.phrases[pi - 1][0].startIndex
+        );
         return;
       } else {
         let si = this.song.sections.indexOf(this.current.section!);
@@ -178,11 +187,15 @@ export class SongComponent implements OnInit, AfterViewChecked, OnDestroy {
     let si = this.song.sections.indexOf(this.current.section!),
       pi = this.current.section!.phrases.indexOf(this.current.phrase!);
     if (pi < this.current.section!.phrases.length - 1) {
-      await this.player.seek(this.current.section!.phrases[pi + 1][0].startIndex);
+      await this.player.seek(
+        this.current.section!.phrases[pi + 1][0].startIndex
+      );
       return;
     } else {
       if (si < this.song.sections.length - 1) {
-        await this.player.seek(this.song.sections[si + 1].phrases[0][0].startIndex);
+        await this.player.seek(
+          this.song.sections[si + 1].phrases[0][0].startIndex
+        );
         return;
       }
     }

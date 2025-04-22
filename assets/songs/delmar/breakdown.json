@@ -1,0 +1,26 @@
+{
+  "trim": 0,
+  "beatsPerMeasure": 8,
+  "tracks": [
+    "Vocals",
+    { "title": "Bongo &amp; Gu&iuml;ra", "groups": ["Percussion", "Rhythm"] },
+    { "title": "Kick Drum", "groups": ["Percussion", "Rhythm"] },
+    { "title": "Bass", "groups": ["Guitars", "Rhythm"] },
+    { "title": "Segunda", "groups": ["Guitars", "Rhythm"] },
+    { "title": "Requinto", "groups": ["Guitars"] },
+    "Synths &amp; Pads"
+  ],
+  "sections": [
+    { "title": "Intro", "phrases": [[4], 4] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4, 4] },
+    { "title": "Verse", "structure": "Derecho", "phrases": [4] },
+    { "title": "Pre-Chorus", "phrases": [2, ["Majao", 8, 8, 8]] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4, 4] },
+    { "title": "Mambo", "structure": "Majao", "phrases": [4] },
+    { "title": "Interlude", "phrases": [4] },
+    { "title": "Bridge", "structure": "Majao", "phrases": [4] },
+    { "title": "Chorus", "phrases": [["Breakdown", 8], ["Majao", 8], 4] },
+    { "title": "Mambo", "structure": "Majao", "phrases": [4] },
+    { "title": "Outro", "phrases": [4] }
+  ]
+}

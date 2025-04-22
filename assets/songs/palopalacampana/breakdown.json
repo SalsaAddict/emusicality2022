@@ -1,0 +1,90 @@
+{
+  "lag": 0.48,
+  "trim": 0,
+  "beatsPerMeasure": 8,
+  "tracks": "5B0gFiehvP8K3eOwk2nZ9s",
+  "sections": [
+    {
+      "title": "Intro",
+      "structure": "Salsa",
+      "phrases": [4, 4, 1]
+    },
+    {
+      "title": "Bridge",
+      "structure": "Oriza",
+      "phrases": [4]
+    },
+    {
+      "title": "Verse",
+      "structure": "Salsa",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Bridge",
+      "structure": "Oriza",
+      "phrases": [4]
+    },
+    {
+      "title": "Verse",
+      "structure": "Salsa",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Bridge",
+      "phrases": [
+        ["Afro", 8],
+        [{}, 8]
+      ]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Piano Montuno",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Horns/Moñas",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Solo",
+      "structure": "Campana Solo",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Solo",
+      "structure": "Campana",
+      "phrases": [8]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Coro",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Montuno",
+      "structure": "Coro-Pregón",
+      "phrases": [2, 2, 2, 2]
+    },
+    {
+      "title": "Coda",
+      "structure": "Oriza",
+      "phrases": [4, 4]
+    }
+  ]
+}

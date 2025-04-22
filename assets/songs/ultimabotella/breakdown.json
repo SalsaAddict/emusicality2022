@@ -1,0 +1,56 @@
+{
+  "lag": 2.75,
+  "trim": 0,
+  "beatsPerMeasure": 8,
+  "tracks": "24ifSHF1A6bIiFB6LB47gz",
+  "sections": [
+    {
+      "title": "Intro",
+      "phrases": [
+        [8, 8],
+        [8, 8]
+      ]
+    },
+    {
+      "title": "Mambo",
+      "structure": "Derecho",
+      "phrases": [4, [4]]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Mambo",
+      "phrases": [2, ["Derecho", 8, 8, 8]]
+    },
+    {
+      "title": "Verse",
+      "structure": "Derecho",
+      "phrases": [4, 4]
+    },
+    {
+      "title": "Chorus",
+      "structure": "Majao",
+      "phrases": [4, [8, 8, 8, 8, 4]]
+    },
+    {
+      "title": "Bridge",
+      "phrases": [["Derecho", 8, 8, 8], ["Majao", 8], 2]
+    },
+    {
+      "title": "Interlude",
+      "phrases": [2]
+    },
+    {
+      "title": "Outro",
+      "phrases": [2, 2, 2, 2, 2]
+    }
+  ]
+}

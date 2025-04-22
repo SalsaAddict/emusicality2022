@@ -1,0 +1,35 @@
+{
+  "beatsPerMeasure": 8,
+  "trim": 0.25,
+  "tracks": [
+    { "title": "Gu&iuml;ra", "groups": ["Rhythm"] },
+    { "title": "Bongos", "groups": ["Rhythm"] },
+    { "title": "Bass", "groups": ["Rhythm"] },
+    { "title": "Segunda", "groups": ["Rhythm"], "trim": 2.1 },
+    { "title": "Requinto", "trim": 1.4 }
+  ],
+  "sections": [
+    { "title": "Intro", "phrases": [[4], [8, 8, 8, 8]] },
+    { "title": "Verse", "structure": "Derecho", "phrases": [4] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4] },
+    { "title": "Interlude", "structure": "Derecho", "phrases": [4] },
+    { "title": "Verse", "structure": "Derecho", "phrases": [4] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4] },
+    {
+      "title": "Bridge",
+      "structure": "Derecho",
+      "phrases": [[{}, "Majao"]]
+    },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4] },
+    { "title": "Mambo", "structure": "Majao", "phrases": [4] },
+    { "title": "Breakdown", "structure": "Urban", "phrases": [4, [4]] },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4] },
+    {
+      "title": "Bridge",
+      "structure": "Derecho",
+      "phrases": [[{}, "Majao"]]
+    },
+    { "title": "Chorus", "structure": "Majao", "phrases": [4] },
+    { "title": "Ending", "phrases": [[4]] }
+  ]
+}

@@ -12,6 +12,7 @@ import { NgbCollapseModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap
 import { AnimateIfDirective } from "./animate-if.directive";
 import { HomeComponent } from "./home/home.component";
 import { SpotifyComponent } from './spotify/spotify.component';
+import { VoteComponent } from './vote/vote.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SpotifyComponent } from './spotify/spotify.component';
     AnimateIfDirective,
     HomeComponent,
     SpotifyComponent,
+    VoteComponent,
   ],
   imports: [
     BrowserModule,

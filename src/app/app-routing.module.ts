@@ -32,7 +32,7 @@ const routes: Routes = [
       device: spotifyResolver
     }
   },
-  { path: '**', redirectTo: 'home' }
+  { path: '**', redirectTo: 'vote' }
 ];
 
 @NgModule({

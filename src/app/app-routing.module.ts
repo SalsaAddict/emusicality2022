@@ -6,7 +6,6 @@ import { SongComponent } from './song/song.component';
 import { songResolver } from './song/song.resolver';
 import { SpotifyComponent } from './spotify/spotify.component';
 import { spotifyResolver } from './spotify/spotify.resolver';
-import { VoteComponent } from './vote/vote.component';
 
 const routes: Routes = [
   {
@@ -15,10 +14,6 @@ const routes: Routes = [
     resolve: {
       songs: homeResolver
     }
-  },
-  {
-    path: 'vote',
-    component: VoteComponent
   },
   {
     path: 'spotify',
@@ -32,7 +27,7 @@ const routes: Routes = [
       device: spotifyResolver
     }
   },
-  { path: '**', redirectTo: 'vote' }
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
